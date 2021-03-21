@@ -20,7 +20,7 @@ class Logger:
 
 logger =  Logger()
 
-def create_clean_folders(folder_name:str):
+def create_clean_folders(folder_name:str,add_git_keep = False):
     src_dest = Path(folder_name)
     if src_dest.exists():
         logger.error(f'{src_dest} already exits')
@@ -43,20 +43,27 @@ def create_clean_folders(folder_name:str):
         presentation_folder.mkdir()
         logger.message(f'Creada: {presentation_folder}')
         
-
+        git_keep = '.gitkeep'
         for folder_name in domain_folders:
             new_folder = (domain_folder/folder_name)
             new_folder.mkdir()
+            if add_git_keep : 
+                (new_folder / git_keep).touch()
             logger.message(f'Creada: {new_folder}')
+
 
         for folder_name in data_folders:
             new_folder = (data_folder/folder_name)
             new_folder.mkdir()
+            if add_git_keep: 
+                (new_folder / git_keep).touch()
             logger.message(f'Creada: {new_folder}')
 
         for folder_name in presentation_folders:
             new_folder = (presentation_folder/folder_name)
             new_folder.mkdir()
+            if add_git_keep : 
+                (new_folder / git_keep).touch()
             logger.message(f'Creada: {new_folder}')
         
              
@@ -68,12 +75,15 @@ def main():
         description='Crea una estructura de carpetas de clean arquitecture'
     )
     parser.add_argument("-v","--verbose",action='store_true')
+    parser.add_argument("--no-gitkeep",action='store_false',default=True,help='No se crea un archivo .gitkeet en cada carpeta')
     parser.add_argument("foldername",help='Nombre de la carpeta principal')
   
 
     args = parser.parse_args()
     logger.setVerbose(args.verbose)
-    create_clean_folders(args.foldername)
+    no_gitkeep = args.no_gitkeep
+    print( no_gitkeep)
+    create_clean_folders(args.foldername,no_gitkeep)
     
 
 if __name__== '__main__':
