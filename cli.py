@@ -82,7 +82,6 @@ def main():
     args = parser.parse_args()
     logger.setVerbose(args.verbose)
     no_gitkeep = args.no_gitkeep
-    print( no_gitkeep)
     create_clean_folders(args.foldername,no_gitkeep)
     
 
